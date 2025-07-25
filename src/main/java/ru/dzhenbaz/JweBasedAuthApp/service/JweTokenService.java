@@ -7,6 +7,7 @@ import com.nimbusds.jose.crypto.RSADecrypter;
 import com.nimbusds.jose.crypto.RSAEncrypter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import ru.dzhenbaz.JweBasedAuthApp.model.User;
 import ru.dzhenbaz.JweBasedAuthApp.model.dto.TokenPayload;
 
 import java.security.KeyPair;
@@ -19,8 +20,8 @@ public class JweTokenService {
     private final KeyPair keyPair;
     private final ObjectMapper objectMapper = new ObjectMapper();
 
-    public String generateToken(String subject) throws JsonProcessingException, JOSEException {
-        TokenPayload tokenPayload = new TokenPayload(subject);
+    public String generateToken(User user) throws JsonProcessingException, JOSEException {
+        TokenPayload tokenPayload = new TokenPayload(user.getUsername(), user.getSecretCode());
         String jsonPayload = objectMapper.writeValueAsString(tokenPayload);
 
         Payload payload = new Payload(jsonPayload);

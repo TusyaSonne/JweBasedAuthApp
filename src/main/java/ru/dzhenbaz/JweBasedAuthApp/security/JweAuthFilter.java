@@ -33,9 +33,8 @@ public class JweAuthFilter extends OncePerRequestFilter {
                 String payload = tokenService.decryptToken(token);
 
                 TokenPayload tokenPayload = objectMapper.readValue(payload, TokenPayload.class);
-                String username = tokenPayload.getSub();
 
-                Authentication auth = new UsernamePasswordAuthenticationToken(username, null, List.of());
+                Authentication auth = new UsernamePasswordAuthenticationToken(tokenPayload, null, List.of());
                 SecurityContextHolder.getContext().setAuthentication(auth);
             } catch (Exception e) {
                 e.printStackTrace();

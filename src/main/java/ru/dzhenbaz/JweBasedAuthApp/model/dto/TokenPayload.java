@@ -10,6 +10,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TokenPayload {
-    private String sub;
+    private String username;
+    private String secretCode; // Чувствительные данные
 }
 

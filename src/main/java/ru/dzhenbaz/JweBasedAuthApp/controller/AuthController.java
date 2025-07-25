@@ -33,7 +33,7 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<AuthResponse> login(@RequestBody AuthRequest request) throws Exception {
         User user = userService.authenticate(request.username(), request.password());
-        String token = jweTokenService.generateToken(user.getUsername());
+        String token = jweTokenService.generateToken(user);
         return ResponseEntity.ok(new AuthResponse(token));
     }
 }
