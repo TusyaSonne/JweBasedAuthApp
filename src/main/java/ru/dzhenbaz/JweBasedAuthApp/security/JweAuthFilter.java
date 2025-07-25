@@ -11,6 +11,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
+import ru.dzhenbaz.JweBasedAuthApp.exception.ErrorResponse;
 import ru.dzhenbaz.JweBasedAuthApp.model.dto.TokenPayload;
 import ru.dzhenbaz.JweBasedAuthApp.service.JweTokenService;
 
@@ -37,8 +38,15 @@ public class JweAuthFilter extends OncePerRequestFilter {
                 Authentication auth = new UsernamePasswordAuthenticationToken(tokenPayload, null, List.of());
                 SecurityContextHolder.getContext().setAuthentication(auth);
             } catch (Exception e) {
-                e.printStackTrace();
+                ErrorResponse error = new ErrorResponse(
+                        HttpStatus.UNAUTHORIZED,
+                        "Invalid token",
+                        request.getRequestURI()
+                );
+
                 response.setStatus(HttpStatus.UNAUTHORIZED.value());
+                response.setContentType("application/json");
+                response.getWriter().write(new ObjectMapper().writeValueAsString(error));
                 return;
             }
         }
