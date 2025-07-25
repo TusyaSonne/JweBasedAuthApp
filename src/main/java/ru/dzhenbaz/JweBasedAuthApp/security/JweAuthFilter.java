@@ -38,6 +38,7 @@ public class JweAuthFilter extends OncePerRequestFilter {
                 Authentication auth = new UsernamePasswordAuthenticationToken(username, null, List.of());
                 SecurityContextHolder.getContext().setAuthentication(auth);
             } catch (Exception e) {
+                e.printStackTrace();
                 response.setStatus(HttpStatus.UNAUTHORIZED.value());
                 return;
             }
