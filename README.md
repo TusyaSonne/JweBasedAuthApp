@@ -45,7 +45,7 @@
    ```
 2. Залогиньтесь по адресу:
    ```
-   POST /api/auth/register
+   POST /api/auth/login
    ```
 3. В ответе логина получите токен вида:
 
@@ -56,7 +56,7 @@
 3. В Swagger UI нажмите **Authorize**, введите токен в формате:
 
    ```
-   Bearer eyJhbGciOiJSU0EtT0FFUC0yNTYi...
+   eyJhbGciOiJSU0EtT0FFUC0yNTYiLCJlbmMiOiJBMTI4R0NNIn0...
    ```
 
 4. Теперь можно перейти по защищенному эндпоинту и увидеть защифрованную информацию:
