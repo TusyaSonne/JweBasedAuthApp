@@ -13,6 +13,12 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import ru.dzhenbaz.JweBasedAuthApp.security.JweAuthFilter;
 import ru.dzhenbaz.JweBasedAuthApp.service.JweTokenService;
 
+/**
+ * Конфигурация безопасности Spring Security для приложения.
+ * <p>
+ * Настраивает цепочку фильтров, отключает CSRF, разрешает доступ к публичным маршрутам
+ * и добавляет фильтр авторизации на основе JWE.
+ */
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
@@ -25,7 +31,12 @@ public class SecurityConfig {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/auth/**").permitAll()
+                        .requestMatchers("/api/auth/**",
+                                "/swagger-ui/**",
+                                "/swagger-ui.html",
+                                "/v3/api-docs/**"
+                        )
+                        .permitAll()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(new JweAuthFilter(tokenService), UsernamePasswordAuthenticationFilter.class)
